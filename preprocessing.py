@@ -118,6 +118,6 @@ def pre_processing(train_csv , test_csv, remove_punctuation = False, remove_stop
     if apply_Bertweet_normalization:
         #try using Bertweet normalization of tweets
         train_csv.iloc[:,3] = train_csv.iloc[:,3].apply(normalizeTweet)
-        test_csv = test_csv.iloc[:, 3].apply(normalizeTweet)
+        test_csv.iloc[:,3] = test_csv.iloc[:, 3].apply(normalizeTweet)
 
     return train_csv, test_csv.iloc[:, 3]
