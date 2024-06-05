@@ -4,8 +4,9 @@ from utils import call_transformer
 from preprocessing import pre_processing
 from peft import LoraConfig, TaskType
 import os
+from credentials import access_token
 
-access_token = "your access token to huggingface"
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["HF_TOKEN"] = access_token
 
@@ -41,11 +42,11 @@ train_csv = pd.read_csv('train.csv', sep = ',', header=0)
 test_csv = pd.read_csv('test.csv', sep=',', header=0)
 
 #apply pre-processing
-train_dataframe, test_dataframe = pre_processing(train_csv, test_csv)
+train_dataframe, test_dataframe = pre_processing(train_csv, test_csv,apply_Bertweet_normalization=False)
 
 
 
-call_transformer(MODELS,"BERT",train_dataframe, test_dataframe,training_batch_size=8,eval_batch_size=8,learning_rate=2e-5,num_train_epochs=1,weight_decay=0, lora_config= lora_conf, prediction = True , save = True, access_token = access_token)
+#call_transformer(MODELS,"BERT",train_dataframe, test_dataframe,training_batch_size=8,eval_batch_size=8,learning_rate=2e-5,num_train_epochs=1,weight_decay=0, lora_config= lora_conf, prediction = True , save = True, access_token = access_token)
 # accuracy : 0.839754816112084 accuracy on validation set
 
 
@@ -68,7 +69,7 @@ call_transformer(MODELS,"BERT",train_dataframe, test_dataframe,training_batch_si
 #call_transformer(MODELS,"BERT_LARGE",train_dataframe, test_dataframe, training_batch_size=8,eval_batch_size=8,learning_rate=2e-5,num_train_epochs=4,weight_decay=0.01, lora_config= lora_conf, prediction = False , save = False, access_token = access_token)
 #bad accuracy
 
-#call_transformer(MODELS,"Bertweet_LARGE", train_dataframe, test_dataframe, training_batch_size=64, eval_batch_size=64, learning_rate=2e-5, num_train_epochs=1,weight_decay=0.01, prediction = False , save = False, access_token = access_token)
+call_transformer(MODELS,"Bertweet_LARGE", train_dataframe, test_dataframe, training_batch_size=2, eval_batch_size=2, learning_rate=1e-5, num_train_epochs=10,weight_decay=0.00, prediction = False , save = False, access_token = access_token)
 #0.8293963254593176 accuracy on validation set
 
 #call_transformer(MODELS,"Bertweet_LARGE", train_dataframe, test_dataframe, training_batch_size=8, eval_batch_size=8, learning_rate=2e-5, num_train_epochs=1,weight_decay=0.01, lora_config= lora_conf, prediction = True , save = False, access_token = access_token)
